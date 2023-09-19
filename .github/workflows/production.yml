@@ -15,7 +15,7 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  build-deploy-dev:
+  build-deploy-prod:
     uses: ./.github/workflows/build-deploy.yml
     secrets: inherit
     with:

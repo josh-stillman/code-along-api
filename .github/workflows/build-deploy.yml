@@ -10,21 +10,16 @@
 name: Deploy to Amazon ECS
 
 on:
-  push:
-    branches:
-      - main
+  workflow_call:
+    inputs:
+      environment:
+        required: true
+        type: string
 
-  workflow_dispatch:
-
-  # Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
-  # However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
-concurrency:
-  group: "frontend"
-  cancel-in-progress: false
 
 env:
   AWS_REGION: us-east-1                           # set this to your preferred AWS region, e.g. us-west-1
-  ECR_REPOSITORY: code-along                      # set this to your Amazon ECR repository name
+  ECR_REPOSITORY: ${{ vars.REPO_NAME}}                      # set this to your Amazon ECR repository name
   ECS_SERVICE: code-along-api-lb           # set this to your Amazon ECS service name
   ECS_CLUSTER: code-along-api                     # set this to your Amazon ECS cluster name
   ECS_TASK_DEFINITION: .aws/task-definition.json  # set this to the path to your Amazon ECS task definition file, e.g. .aws/task-definition.json
@@ -34,7 +29,14 @@ jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
-    environment: production
+    environment: ${{ inputs.environment }}
+    env:
+      AWS_REGION: us-east-1                           # set this to your preferred AWS region, e.g. us-west-1
+      ECR_REPOSITORY: ${{ vars.REPO_NAME }}                      # set this to your Amazon ECR repository name
+      ECS_SERVICE: ${{ vars.SERVICE_NAME }}            # set this to your Amazon ECS service name
+      ECS_CLUSTER: ${{ vars.CLUSTER_NAME }}                     # set this to your Amazon ECS cluster name
+      ECS_TASK_DEFINITION: ${{ vars.TASK_DEF_PATH }}   # set this to the path to your Amazon ECS task definition file, e.g. .aws/task-definition.json
+      CONTAINER_NAME: ${{ vars.CONTAINER_NAME }}
 
     steps:
       - name: Checkout

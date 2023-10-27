@@ -28,6 +28,7 @@ jobs:
       ECS_CLUSTER: ${{ vars.CLUSTER_NAME }}                     # set this to your Amazon ECS cluster name
       ECS_TASK_DEFINITION: ${{ vars.TASK_DEF_PATH }}   # set this to the path to your Amazon ECS task definition file, e.g. .aws/task-definition.json
       CONTAINER_NAME: ${{ vars.CONTAINER_NAME }}
+      PUBLIC_URL: ${{ vars.PUBLIC_URL }}
 
     steps:
       - name: Checkout

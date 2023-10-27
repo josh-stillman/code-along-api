@@ -4,6 +4,9 @@ RUN apk update && apk add --no-cache build-base gcc autoconf automake zlib-dev l
 ARG NODE_ENV=production
 ENV NODE_ENV=${NODE_ENV}
 
+ARG PUBLIC_URL=http://localhost:1337
+ENV PUBLIC_URL=${PUBLIC_URL}
+
 WORKDIR /opt/
 COPY package.json package-lock.json ./
 RUN npm config set fetch-retry-maxtimeout 600000 -g && npm install --only=production
